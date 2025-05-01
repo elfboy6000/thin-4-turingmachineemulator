@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Tape {
     private final Map<Integer, Character> cells = new HashMap<>();
-    private final char blank = '0';
+    private final char blank = '_';
 
     public char read(int position) {
         return cells.getOrDefault(position, blank);

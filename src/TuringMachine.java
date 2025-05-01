@@ -35,8 +35,6 @@ public class TuringMachine {
                 int writeSymbolCode = readUnary() - 1;
                 int directionCode = readUnary() - 1;
 
-                System.err.println("directionCode = " + directionCode);
-
                 Direction dir = switch (directionCode) {
                     case 0 -> Direction.LEFT;
                     case 1 -> Direction.RIGHT;

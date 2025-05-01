@@ -5,6 +5,7 @@ public class Emulator {
     private State state;
     private long steps = 0;
     private final boolean stepMode;
+    private boolean halted = false;
 
     public Emulator(TuringMachine tm, String input, boolean stepMode) {
         this.tm = tm;
@@ -25,13 +26,16 @@ public class Emulator {
             state = t.getNextState();
             head += (t.getDirection() == Direction.RIGHT ? 1 : -1);
             steps++;
+
             if (stepMode) {
                 printStatus();
             }
-        }
-        // finished
-        if (!stepMode) {
-            printStatus();
+
+            // Stop if we've reached state q2 (which appears to be your halt state)
+            if (state.isFinalState()) {
+                halted = true;
+                break;
+            }
         }
     }
 
@@ -41,10 +45,12 @@ public class Emulator {
     public void printInitialState() {
         System.out.println("=== Turing Machine Initial State ===");
         System.out.println("Start state: " + tm.getStartState().getId());
-        System.out.println("Total transitions: " + tm.getTransitions().size());
         System.out.println("Input: " + tape.getResult());
+        System.out.println("Tape visual:");
         printTape();
         System.out.println();
+        System.out.println("Total transitions: " + tm.getTransitions().size());
+        System.out.println("Transitions:");
 
         // Sort transitions by state ID for readability
         for (Transition t : tm.getTransitions()) {
@@ -82,6 +88,15 @@ public class Emulator {
         System.out.println("=== Computation Finished ===");
         System.out.println("Total steps: " + steps);
         System.out.println("Final state: " + state.getId());
+
+        // Determine if input was accepted or rejected based on the symbol under the head
+        char finalSymbol = tape.read(head);
+        if (finalSymbol == '1' || halted) {
+            System.out.println("Result: ACCEPTED");
+        } else {
+            System.out.println("Result: REJECTED");
+        }
+
         System.out.println("Result tape: " + tape.getResult());
         System.out.println("Tape visual:");
         printTape();
