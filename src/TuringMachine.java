@@ -22,6 +22,11 @@ public class TuringMachine {
 
     private void decode() {
         int n = code.length();
+        // Skip any leading '1's before starting to decode
+        while (index < n && code.charAt(index) == '1') {
+            index++;
+        }
+
         while (index < n) {
             try {
                 int currentStateCode = readUnary();

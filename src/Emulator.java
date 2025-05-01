@@ -43,6 +43,7 @@ public class Emulator {
         System.out.println("Start state: " + tm.getStartState().getId());
         System.out.println("Total transitions: " + tm.getTransitions().size());
         System.out.println("Input: " + tape.getResult());
+        printTape();
         System.out.println();
 
         // Sort transitions by state ID for readability
@@ -53,7 +54,14 @@ public class Emulator {
 
     private void printStatus() {
         System.out.println("Step: " + steps);
+        printTape();
+        System.out.println();
+    }
 
+    /**
+     * Prints the tape with the current head position and state
+     */
+    private void printTape() {
         // Create tape visual with pointer
         String tapeWindow = tape.window(head);
         StringBuilder pointerLine = new StringBuilder();
@@ -68,7 +76,6 @@ public class Emulator {
 
         System.out.println(pointerLine);
         System.out.println(tapeWindow);
-        System.out.println();
     }
 
     public void printResult() {
@@ -76,5 +83,7 @@ public class Emulator {
         System.out.println("Total steps: " + steps);
         System.out.println("Final state: " + state.getId());
         System.out.println("Result tape: " + tape.getResult());
+        System.out.println("Tape visual:");
+        printTape();
     }
 }
